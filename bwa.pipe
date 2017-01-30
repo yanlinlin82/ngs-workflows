@@ -1,0 +1,22 @@
+bwa_map()
+{
+	{{
+		#[I="${REF}" I="${REF}.bwt" I="${FQ1}" O="${SAI1}"]
+		bwa aln ${REF} ${FQ1} > ${SAI1}
+
+		#[I="${REF}" I="${REF}.bwt" I="${FQ2}" O="${SAI2}"]
+		bwa aln ${REF} ${FQ2} > ${SAI2}
+	}}
+
+	#[I="${REF}" I="${REF}.bwt" I="${SAI1}" I="${SAI2}" I="${FQ1}" I="${FQ2}" O="${BAM}"]
+	bwa sampe ${REF} ${SAI1} ${SAI2} ${FQ1} ${FQ2} \
+		| samtools view -Sb - > ${BAM}
+
+	#[I="${BAM}" OF="${SORT_BAM}"]
+	java -jar ${PICARD_JAR} SortSam \
+		SO=coordinate I=${BAM} O=${SORT_BAM} \
+		CREATE_INDEX=false CREATE_MD5_FILE=false
+
+	#[I="${SORT_BAM}" OF="${SORT_BAM}.bai"]
+	samtools index ${SORT_BAM}
+}

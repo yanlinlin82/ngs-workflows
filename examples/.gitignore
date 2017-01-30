@@ -1,0 +1,11 @@
+.seqpipe/
+MT.fa.amb
+MT.fa.ann
+MT.fa.bwt
+MT.fa.pac
+MT.fa.sa
+out.bam
+out.sort.bam
+out.sort.bam.bai
+r1.sai
+r2.sai
